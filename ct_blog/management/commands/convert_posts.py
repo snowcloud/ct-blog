@@ -28,6 +28,7 @@ class Command(BaseCommand):
             new_post.publish = old_post.publish
             new_post.created = old_post.created
             new_post.modified = old_post.modified
+            # categories not in use anyway
             for old_c in old_post.categories.all():
                 new_c, created = Category.objects.get_or_create(slug=old_c.slug, defaults={'title': old_c.title})
                 new_post.categories.add(new_c)
@@ -40,13 +41,4 @@ class Command(BaseCommand):
                 comment.content_type = new_type
                 comment.object_pk = new_post.id
                 comment.save()
-                # print comment.comment
-        #     try:
-        #         poll = Poll.objects.get(pk=int(poll_id))
-        #     except Poll.DoesNotExist:
-        #         raise CommandError('Poll "%s" does not exist' % poll_id)
-        # 
-        #     poll.opened = False
-        #     poll.save()
-        # 
         self.stdout.write('=============\ndone it\n')

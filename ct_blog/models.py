@@ -3,13 +3,14 @@ from django.utils.translation import ugettext_lazy as _
 from django.db.models import Manager, permalink
 from django.contrib.auth.models import User
 from django.conf import settings
-
+from django.template.loader import render_to_string
 
 import datetime
 import tagging
 from tagging.fields import TagField
 
-from ct_groups.models import CTGroup
+from ct_groups.models import CTGroup, group_notify
+
 
 class Category(models.Model):
     """Category model."""
@@ -74,11 +75,11 @@ class Post(models.Model):
 
     @permalink
     def get_absolute_url(self):
-        return ('blog_detail', None, {
-            'year': self.publish.year,
-            'month': self.publish.strftime('%b').lower(),
-            'day': self.publish.day,
-            'slug': self.slug
+        return ('post', None, {
+            'object_id': self.id,
+            # 'month': self.publish.strftime('%b').lower(),
+            # 'day': self.publish.day,
+            # 'slug': self.slug
         })
 
     def get_previous_post(self):
