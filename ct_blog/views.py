@@ -14,8 +14,7 @@ import datetime
 def index(request, page=0, paginate_by=20, **kwargs):
     page_size = getattr(settings,'BLOG_PAGESIZE', paginate_by)
     
-    
-    object_list = Post.objects.published()
+    object_list = Post.objects.public()
     return render_to_response(
         'blog/index.html',
         RequestContext( request, {'object_list': object_list }))
