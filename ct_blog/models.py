@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db.models import Manager, permalink
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.template.defaultfilters import truncatewords
 from django.template.loader import render_to_string
 
 import datetime
