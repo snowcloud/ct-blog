@@ -38,10 +38,9 @@ class PublicManager(Manager):
 
     def public(self):
         return self.published().filter(
-            ct_group__is_public=True).filter(
-            ct_group__ctgrouppermission__name__exact='blog',
-            ct_group__ctgrouppermission__read_permission__exact='10')
-
+            group__is_public=True).filter(
+            group__ctgrouppermission__name__exact='blog',
+            group__ctgrouppermission__read_permission__exact='10')
 
 class Post(models.Model):
     """Post model."""
