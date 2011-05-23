@@ -42,8 +42,8 @@ urlpatterns = patterns('ct_blog.views',
     #     view='post_list',
     #     name='blog_index_paginated'
     # ),
-    # url(r'^$',
-    #     view='post_list',
-    #     name='blog_index'
-    # ),
+    url(r'^$',
+        view='index',
+        name='blog_index'
+    ),
 )
