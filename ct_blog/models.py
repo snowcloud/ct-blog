@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db.models import Manager, permalink
 from django.contrib.auth.models import User
 from django.conf import settings
-from django.template.defaultfilters import truncatewords
+from django.template.defaultfilters import truncatewords_html
 from django.template.loader import render_to_string
 
 import datetime
@@ -101,7 +101,8 @@ class Post(models.Model):
         if self.tease:
             return self.tease
         else:
-            return truncatewords(self.body, 80)
+            return truncatewords_html(self.body, 80)
+            
     summary = property(_summary)
     
     def get_notify_content(self, comment=None):
