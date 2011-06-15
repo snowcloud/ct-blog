@@ -1,5 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.contrib.comments.models import Comment
+from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
@@ -61,7 +63,6 @@ def detail(request, object_id):
 #     )
 # post_detail.__doc__ = date_based.object_detail.__doc__
 
-
 @login_required
 def blog_new_post(request, group_slug):
     group = get_object_or_404(CTGroup, slug=group_slug)
@@ -74,19 +75,18 @@ def blog_new_post(request, group_slug):
             post.slug = slugify(post.title)
             post.publish = datetime.datetime.now()
             post.group = group
-            print post.id, group
+            # print post.id, group
             post.save()
             return HttpResponseRedirect(post.get_absolute_url())
     else:
         form = BlogPostForm()
     return render_to_response('blog/post_add.html',
-        RequestContext( request, {'form': form,  }))
-
+        RequestContext( request, {'form': form, 'group': group  }))
 
 @login_required
-def blog_post_edit(request, group_slug, slug):
+def blog_edit_post(request, group_slug, object_id):
 
-    obj = get_object_or_404(Post, slug=slug)
+    obj = get_object_or_404(Post, pk=object_id)
 
     if request.method == 'POST':
         form = BlogPostForm(request.POST, instance=obj)
@@ -96,5 +96,14 @@ def blog_post_edit(request, group_slug, slug):
     else:
         form = BlogPostForm(instance=obj)
     return render_to_response('blog/post_add.html',
-        RequestContext( request, {'form': form, 'object': obj }))
+        RequestContext( request, {'form': form, 'object': obj, 'group': obj.group }))
 
+@login_required
+def blog_delete_post(request, group_slug, object_id):
+    obj = get_object_or_404(Post, pk=object_id)
+    group = obj.group
+    ct = ContentType.objects.get_for_model(Post)    
+    Comment.objects.filter(content_type=ct, object_pk=obj.id).delete()
+    obj.delete()
+    
+    return HttpResponseRedirect(group.get_absolute_url())
