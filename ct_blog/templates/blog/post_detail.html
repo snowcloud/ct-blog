@@ -73,6 +73,8 @@
               {{ comment.submit_date|date:"j F Y, H:i" }}
             </h5>
             {{ comment.comment|urlizetrunc:"60"|textile }}
+            
+            {% if object.group|can_delete_comment:user %}<p><a href="{% url post-comment-delete object.id comment.id %}">delete comment</a></p>{% endif %}
           </div>
           {% endif %}
         {% endfor %}

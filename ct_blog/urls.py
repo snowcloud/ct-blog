@@ -2,10 +2,10 @@ from django.conf.urls.defaults import *
 
 
 urlpatterns = patterns('ct_blog.views',
-    url(r'^(?P<object_id>[-\d]+)/$',
-        view='detail',
-        name='post'
-    ),
+    url(r'^$', view='index', name='blog_index'),
+    url(r'^(?P<object_id>[-\d]+)/$', view='detail', name='post'),
+    url(r'^(?P<object_id>[-\d]+)/comment/(?P<comment_id>[-\d]+)/delete/$', view='post_comment_delete', name='post-comment-delete'),
+    
     # url(r'^(?P<year>\d{4})/(?P<month>\w{3})/(?P<day>\d{1,2})/(?P<slug>[-\w]+)/$',
     #     view='post_detail',
     #     name='blog_detail'
@@ -42,8 +42,4 @@ urlpatterns = patterns('ct_blog.views',
     #     view='post_list',
     #     name='blog_index_paginated'
     # ),
-    url(r'^$',
-        view='index',
-        name='blog_index'
-    ),
 )

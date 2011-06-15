@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.comments.models import Comment
 from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
@@ -10,6 +11,7 @@ from django.views.generic import list_detail
 
 from ct_blog.forms import BlogPostForm
 from ct_blog.models import Post
+from ct_groups.decorators import check_permission
 from ct_groups.models import CTGroup
 import datetime
 
@@ -67,6 +69,9 @@ def detail(request, object_id):
 def blog_new_post(request, group_slug):
     group = get_object_or_404(CTGroup, slug=group_slug)
 
+    if not check_permission(request.user, group, 'blog', 'w'):
+        raise PermissionDenied()
+
     if request.method == 'POST':
         form = BlogPostForm(request.POST)
         if form.is_valid():
@@ -88,6 +93,9 @@ def blog_edit_post(request, group_slug, object_id):
 
     obj = get_object_or_404(Post, pk=object_id)
 
+    if not check_permission(request.user, obj.group, 'blog', 'w'):
+        raise PermissionDenied()
+
     if request.method == 'POST':
         form = BlogPostForm(request.POST, instance=obj)
         if form.is_valid():
@@ -102,8 +110,19 @@ def blog_edit_post(request, group_slug, object_id):
 def blog_delete_post(request, group_slug, object_id):
     obj = get_object_or_404(Post, pk=object_id)
     group = obj.group
+    if not check_permission(request.user, group, 'blog', 'd'):
+        raise PermissionDenied()
     ct = ContentType.objects.get_for_model(Post)    
     Comment.objects.filter(content_type=ct, object_pk=obj.id).delete()
     obj.delete()
     
     return HttpResponseRedirect(group.get_absolute_url())
+
+def post_comment_delete(request, object_id, comment_id):
+    obj = get_object_or_404(Post, pk=object_id)    
+    if not check_permission(request.user, obj.group, 'comment', 'd'):
+        raise PermissionDenied()
+    comment = get_object_or_404(Comment, pk=comment_id)    
+    comment.delete()
+    return HttpResponseRedirect(obj.get_absolute_url())
+    
