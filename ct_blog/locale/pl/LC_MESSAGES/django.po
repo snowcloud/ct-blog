@@ -1,0 +1,160 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-06-05 16:37+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2)\n"
+
+#: models.py:18 models.py:51
+msgid "title"
+msgstr ""
+
+#: models.py:19 models.py:52
+msgid "slug"
+msgstr ""
+
+#: models.py:22
+msgid "category"
+msgstr ""
+
+#: models.py:23
+msgid "categories"
+msgstr ""
+
+#: models.py:48
+msgid "Draft"
+msgstr ""
+
+#: models.py:49
+msgid "Public"
+msgstr ""
+
+#: models.py:54
+msgid "body"
+msgstr ""
+
+#: models.py:55
+msgid "tease"
+msgstr ""
+
+#: models.py:55
+msgid "Concise text suggested. Does not appear in RSS feed."
+msgstr ""
+
+#: models.py:56
+msgid "status"
+msgstr ""
+
+#: models.py:57
+msgid "allow comments"
+msgstr ""
+
+#: models.py:58
+msgid "publish"
+msgstr ""
+
+#: models.py:59
+msgid "created"
+msgstr ""
+
+#: models.py:60
+msgid "modified"
+msgstr ""
+
+#: models.py:68
+msgid "post"
+msgstr ""
+
+#: models.py:69
+msgid "posts"
+msgstr ""
+
+#: models.py:114
+#, python-format
+msgid "A comment has been added to: %s."
+msgstr ""
+
+#: models.py:119
+#, python-format
+msgid "A discussion post has been added to: %s."
+msgstr ""
+
+#: templates/blog/index.html:5 templates/blog/index.html.py:10
+msgid "Post archive"
+msgstr ""
+
+#: templates/blog/index.html:18
+msgid "View this post"
+msgstr ""
+
+#: templates/blog/index.html:28
+msgid "View older posts"
+msgstr ""
+
+#: templates/blog/index.html:28
+msgid "Older"
+msgstr ""
+
+#: templates/blog/index.html:32
+msgid "View newer posts"
+msgstr ""
+
+#: templates/blog/index.html:32
+msgid "Newer"
+msgstr ""
+
+#: templates/blog/post_add.html:10
+msgid "Add a new post"
+msgstr ""
+
+#: templates/blog/post_add.html:14
+msgid "Post content:"
+msgstr ""
+
+#: templates/blog/post_add.html:23
+msgid "Submit"
+msgstr ""
+
+#: templates/blog/post_detail.html:33
+#, python-format
+msgid "%(counter)s comment"
+msgid_plural "%(counter)s comments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/blog/post_detail.html:36
+msgid "in"
+msgstr ""
+
+#: templates/blog/post_detail.html:67
+msgid "Comments"
+msgstr ""
+
+#: templates/blog/post_detail.html:90
+msgid "Comments are closed"
+msgstr ""
+
+#: templates/blog/post_detail.html:91
+msgid "Comments have been close for this post"
+msgstr ""
+
+#: templates/blog/post_detail.html:95
+msgid "You might be able to comment on this post if you log in"
+msgstr ""
+
+#: templates/blog/post_detail.html:99
+msgid "Sorry, you don't have access to this group's comments"
+msgstr ""
