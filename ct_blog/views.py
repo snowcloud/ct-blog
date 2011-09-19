@@ -77,10 +77,9 @@ def blog_new_post(request, group_slug):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            post.slug = slugify(post.title)
+            post.slug = slugify(post.title)[:50]
             post.publish = datetime.datetime.now()
             post.group = group
-            # print post.id, group
             post.save()
             return HttpResponseRedirect(post.get_absolute_url())
     else:
