@@ -8,21 +8,6 @@
 
 {% block content %}
 
-{% comment %}
-    
-  <p class="other_posts">
-    {% if object.get_previous_by_publish %}
-    <a class="previous" href="{{ object.get_previous_post.get_absolute_url }}">&laquo; {{ object.get_previous_post }}</a>
-    {% endif %}
-    {% if object.get_next_by_publish %}
-    | <a class="next" href="{{ object.get_next_post.get_absolute_url }}">{{ object.get_next_post }} &raquo;</a> 
-    {% endif %}
-  </p>
-
-{{ object|get_previous_post }}  
-
-{% endcomment %}
-
 <div class="entry">
     <h2>{{ object.title }}</h2>
     <div class="entry-descr">
@@ -57,7 +42,13 @@
 </div>      
 
 
-  {{ object|blog_edit:user }}
+    {% if object.group %} 
+        {{ object|blog_edit:user }}
+    {% else %}
+        {% if user.is_staff %} 
+            <p><a href="{% url blog-edit-site-post object.id %}" class="action edit">{% trans "Edit site post" %}</a></p>
+        {% endif %}
+    {% endif %}
 
 {% if object.group|comment_access:user %}
 

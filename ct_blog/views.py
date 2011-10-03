@@ -65,12 +65,7 @@ def detail(request, object_id):
 #     )
 # post_detail.__doc__ = date_based.object_detail.__doc__
 
-@login_required
-def blog_new_post(request, group_slug):
-    group = get_object_or_404(CTGroup, slug=group_slug)
-
-    if not check_permission(request.user, group, 'blog', 'w'):
-        raise PermissionDenied()
+def _new_post(request, group):
 
     if request.method == 'POST':
         form = BlogPostForm(request.POST)
@@ -88,12 +83,21 @@ def blog_new_post(request, group_slug):
         RequestContext( request, {'form': form, 'group': group  }))
 
 @login_required
-def blog_edit_post(request, group_slug, object_id):
+def blog_new_post(request, group_slug):
+    group = get_object_or_404(CTGroup, slug=group_slug)
 
-    obj = get_object_or_404(Post, pk=object_id)
-
-    if not check_permission(request.user, obj.group, 'blog', 'w'):
+    if not check_permission(request.user, group, 'blog', 'w'):
         raise PermissionDenied()
+
+    return _new_post(request, group)
+
+@login_required
+def blog_new_site_post(request):
+    if not request.user.is_staff:
+        raise PermissionDenied()
+    return _new_post(request, None)
+
+def _edit_post(request, obj):
 
     if request.method == 'POST':
         form = BlogPostForm(request.POST, instance=obj)
@@ -104,6 +108,24 @@ def blog_edit_post(request, group_slug, object_id):
         form = BlogPostForm(instance=obj)
     return render_to_response('blog/post_add.html',
         RequestContext( request, {'form': form, 'object': obj, 'group': obj.group }))
+
+@login_required
+def blog_edit_post(request, group_slug, object_id):
+
+    obj = get_object_or_404(Post, pk=object_id)
+
+    if not check_permission(request.user, obj.group, 'blog', 'w'):
+        raise PermissionDenied()
+
+    return _edit_post(request, obj)
+
+@login_required
+def blog_edit_site_post(request, object_id):
+    if not request.user.is_staff:
+        raise PermissionDenied()
+    obj = get_object_or_404(Post, pk=object_id)
+    return _edit_post(request, obj)
+
 
 @login_required
 def blog_delete_post(request, group_slug, object_id):
