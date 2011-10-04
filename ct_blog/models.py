@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from django.db.models import Manager, permalink
+from django.db.models import Manager, permalink, Q
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.template.defaultfilters import truncatewords_html
@@ -37,10 +37,8 @@ class PublicManager(Manager):
         return self.get_query_set().filter(status__gte=2, publish__lte=datetime.datetime.now())
 
     def public(self):
-        return self.published().filter(
-            group__is_public=True).filter(
-            group__ctgrouppermission__name__exact='blog',
-            group__ctgrouppermission__read_permission__exact='10')
+        return self.published().filter(Q(group__isnull=True) | (Q(group__is_public=True) & 
+            Q(group__ctgrouppermission__name__exact='blog', group__ctgrouppermission__read_permission__exact='10')))
 
 class Post(models.Model):
     """Post model."""
