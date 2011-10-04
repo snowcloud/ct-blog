@@ -15,7 +15,10 @@ class LatestPosts(Node):
         self.var_name = var_name
 
     def render(self, context):
-        posts = Post.objects.published()[:self.limit]
+        if context['user'].is_authenticated():
+            posts = Post.objects.published()[:self.limit]
+        else:
+            posts = Post.objects.public()[:self.limit]
         if posts and (self.limit == 1):
             context[self.var_name] = posts[0]
         else:
@@ -36,12 +39,8 @@ def get_latest_posts(parser, token):
 
         {% get_latest_posts 10 as latest_post_list %}
     """
-    try:
-        tag_name, arg = token.contents.split(None, 1)
-    except ValueError:
-        raise template.TemplateSyntaxError, "%s tag requires arguments" % token.contents.split()[0]
-    m = re.search(r'(.*?) as (\w+)', arg)
-    if not m:
-        raise template.TemplateSyntaxError, "%s tag had invalid arguments" % tag_name
-    format_string, var_name = m.groups()
-    return LatestPosts(format_string, var_name)
+    _syntax = u"{% get_latest_posts [limit] as [var_name] [public (optional)] %}"
+    tokens = token.split_contents()
+    if len(tokens) != 4:
+        raise TemplateSyntaxError, "%s tag requires arguments- %s" % (token.contents.split()[0], _syntax)
+    return LatestPosts(tokens[1], tokens[3])
