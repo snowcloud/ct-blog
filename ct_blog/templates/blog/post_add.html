@@ -1,9 +1,10 @@
 {% extends "base.html" %}
+{% load future %}
 {% load i18n markup sitevars comments forms %}
 
 {% block title %}new blog post{% endblock %}
 {% block breadcrumbs %}<a href="/groups/{{ group.slug }}">{{ group.name }}</a> > 
- {% if object %}<a href="{% url post object.id %}">{{ object.title }}</a>{% else %}{% trans 'add a new post' %} {% endif %} {% endblock %}
+ {% if object %}<a href="{% url 'post' object.id %}">{{ object.title }}</a>{% else %}{% trans 'add a new post' %} {% endif %} {% endblock %}
 
 {% block content %}
 

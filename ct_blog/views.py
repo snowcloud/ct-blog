@@ -7,7 +7,6 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.template.defaultfilters import slugify
-from django.views.generic import list_detail
 
 from ct_blog.forms import BlogPostForm
 from ct_blog.models import Post
