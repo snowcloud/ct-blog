@@ -138,6 +138,7 @@ def blog_delete_post(request, group_slug, object_id):
     
     return HttpResponseRedirect(group.get_absolute_url())
 
+@login_required
 def post_comment_delete(request, object_id, comment_id):
     obj = get_object_or_404(Post, pk=object_id)    
     if not check_permission(request.user, obj.group, 'comment', 'd'):
